@@ -1,0 +1,148 @@
+{
+  "aiBuilderFeatures": {
+    "aiLab": {
+      "description": "Google DeepMind-style R&D ops layer with research, tools, product AI, science, safety, and infra",
+      "entities": {
+        "LabUnit": {
+          "schema": "{ id, name, type: "research"|"tools"|"product"|"science"|"safety"|"infra" }",
+          "sections": ["Research", "Tools", "Products", "Science", "Safety", "Infra"]
+        },
+        "Project": "{ id, labUnitId, title, status, modelFamily, domain, createdBy }",
+        "Artifact": "{ id, projectId, kind: "model"|"dataset"|"pipeline"|"tool"|"paper"|"report", uri, metadata }",
+        "Experiment": "{ id, projectId, config, metrics, checkpointUri, createdAt }",
+        "Deployment": "{ id, projectId, env: "dev"|"staging"|"prod", endpointUrl, version, safetyReportId }",
+        "SafetyReport": "{ id, projectId, evalResults, redteamNotes, policyTags }"
+      },
+      "features": {
+        "research": ["experiment tracking", "leaderboards", "auto research notes"],
+        "tools": ["tool registry", "SDK snippets", "template repos"],
+        "productAI": ["integration tracking", "feedback loops", "impact reports"],
+        "science": ["multi-modal pipelines", "problem templates"],
+        "safety": ["policy engine", "red-team evals", "deployment gates"],
+        "infra": ["endpoint management", "pipelines/scheduling", "model catalog"]
+      },
+      "pricing": {
+        "createLab": 500,
+        "runExperiment": 300,
+        "deployModel": 800
+      }
+    },
+    
+    "instructionAgent": {
+      "description": "Two-mode agent: DIY instructions vs Autopilot code generation",
+      "modes": {
+        "guide": {
+          "cost": 100,
+          "output": "step-by-step instructions + copy-paste code blocks",
+          "behavior": "wizard-style, confirm each step"
+        },
+        "autopilot": {
+          "cost": 800,
+          "output": "structured JSON actions -> auto-create tables/routes/files/migrations",
+          "behavior": "full codegen + wiring + sandbox testing"
+        }
+      },
+      "actions": {
+        "create_project": true,
+        "scaffold_feature": true,
+        "generate_docs": true,
+        "run_migrations": true
+      },
+      "uiFlow": ["select template", "choose mode", "predict cost", "deduct credits", "stream progress"]
+    },
+    
+    "mechanicAgent": {
+      "description": "Fix/repair/refactor apps from any platform with future-proofing",
+      "inputTypes": ["ZIP file", "GitHub URL", "live preview code"],
+      "platforms": ["Next.js", "React", "Vue", "Svelte", "vanilla JS", "React Native", "Flutter"],
+      "modes": {
+        "diagnose": {
+          "cost": 200,
+          "analysis": ["static linting", "runtime testing", "security scan", "perf metrics"],
+          "output": "interactive report + code diffs + upgrade suggestions"
+        },
+        "repair": {
+          "cost": 1200,
+          "actions": ["rewrite files", "replace components", "add scaling hooks", "sandbox test"],
+          "output": "before/after metrics + apply button"
+        }
+      },
+      "analysisCapabilities": {
+        "bugs": ["re-renders", "memory leaks", "race conditions"],
+        "perf": ["bundle size", "load time", "API calls"],
+        "security": ["XSS", "CSRF", "API key exposure"],
+        "scale": ["caching", "lazy loading", "rate limits"],
+        "futureProof": ["error boundaries", "tests", "migration guides"]
+      },
+      "outputFormat": {
+        "diagnosis": "array of issues with severity",
+        "fixes": "array of file diffs with reasons",
+        "upgrades": "suggested component swaps",
+        "preventions": "defensive patterns to add",
+        "metricsDelta": "perf improvements"
+      },
+      "upsells": ["scale-to-prod audit: 500", "monthly maintenance: 2000/mo"]
+    }
+  },
+  
+  "creditSystem": {
+    "currency": "credits",
+    "exchangeRate": "$0.01 per credit",
+    "features": {
+      "aiLab_createLab": 500,
+      "aiLab_runExperiment": 300,
+      "aiLab_deployModel": 800,
+      "instructionAgent_guide": 100,
+      "instructionAgent_autopilot": 800,
+      "mechanicAgent_diagnose": 200,
+      "mechanicAgent_repair": 1200
+    },
+    "wallet": {
+      "topup": true,
+      "refundOnFail": true,
+      "predictCost": true
+    }
+  },
+  
+  "uiComponents": {
+    "common": ["CreditWallet", "CostPredictor", "ProgressTracker", "DiffViewer"],
+    "aiLab": ["ProjectGallery", "ExperimentLeaderboard", "DeploymentStatus"],
+    "instructionAgent": ["ModeSelector", "StepWizard", "ActionConfirm"],
+    "mechanicAgent": ["Dropzone", "IssueReport", "ApplyButton"]
+  },
+  
+  "backendApis": {
+    "/api/ai-lab": {
+      "createLab": "POST",
+      "listProjects": "GET",
+      "runExperiment": "POST"
+    },
+    "/api/instruction-agent": {
+      "runGuide": "POST { mode: 'guide', template: string }",
+      "runAutopilot": "POST { mode: 'autopilot', template: string }"
+    },
+    "/api/mechanic": {
+      "diagnose": "POST { files: array, platform: string }",
+      "repair": "POST { diagnosisId: string, autoApply: boolean }"
+    }
+  },
+  
+  "agentPrompts": {
+    "instructionAgent": "You’re a senior architect. For guide mode: numbered steps with code. For autopilot: JSON actions { create_tables, update_routes, write_files }.",
+    "mechanicAgent": "You’re a full-stack mechanic. Diagnose bugs/perf/security/scale risks. Output structured fixes with before/after code + metrics impact."
+  },
+  
+  "mvpRollout": {
+    "week1": ["AI Lab entities + basic UI", "Instruction Agent guide mode"],
+    "week2": ["Instruction Agent autopilot", "Mechanic Agent diagnose"],
+    "week3": ["Mechanic Agent repair", "credit gating everywhere"],
+    "estimatedMRR": "$40k by month 2"
+  },
+  
+  "techStack": {
+    "frontend": ["React/Next.js", "WebContainer", "Zustand"],
+    "backend": ["Node.js", "TypeScript", "PostgreSQL"],
+    "ai": ["Groq", "Gemini", "OpenRouter"],
+    "analysis": ["ESLint", "Puppeteer", "esbuild", "Snyk patterns"]
+  }
+}
