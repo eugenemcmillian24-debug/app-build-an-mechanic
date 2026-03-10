@@ -1,0 +1,140 @@
+## Credit System Module 4 pack plans starter $5 pro $15 premium $25 costom $45 
+**Purpose**: Add to any existing app. $0.05/credit. No free tier. Blocks actions when balance = 0.
+### Supabase Tables
+```sql
+create table credit_wallets (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references auth.users(id),
+  balance numeric(10,4) default 0
+);
+
+create table credit_transactions (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references auth.users(id),
+  amount numeric(10,4),
+  reason text,
+  reference_id uuid
+);
+
+create table pricing_rules (
+  id uuid default uuid_generate_v4() primary key,
+  action_type text unique,
+  base_cost_credits numeric(8,4) default 1.0
+);
+
+insert into pricing_rules (action_type, base_cost_credits) values
+('ai_message', 1),
+('ai_build', 20),
+('deploy_vercel', 40),
+('deploy_netlify', 40);
+```
+
+### Env Vars
+```
+STRIPE_SECRET_KEY=sk_test_...
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=...
+CREDIT_PRICE_USD=0.05
+```
+
+### API Routes (/api/credits/)
+
+**check** - `POST`
+```ts
+export async function POST(req) {
+  const { user } = await getUser();
+  const { actionType } = await req.json();
+  
+  const { data } = await supabase
+    .from('credit_wallets')
+    .select('balance')
+    .eq('user_id', user.id)
+    .single();
+    
+  const rule = await supabase
+    .from('pricing_rules')
+    .select('base_cost_credits')
+    .eq('action_type', actionType)
+    .single();
+    
+  return Response.json({
+    balance: data?.balance || 0,
+    cost: rule?.base_cost_credits || 1,
+    sufficient: (data?.balance || 0) >= (rule?.base_cost_credits || 1)
+  });
+}
+```
+
+**usage** - `POST` (call before every action)
+```ts
+export async function POST(req) {
+  const { user } = await getUser();
+  const { actionType, referenceId } = await req.json();
+  
+  const rule = await supabase
+    .from('pricing_rules')
+    .select('base_cost_credits')
+    .eq('action_type', actionType)
+    .single();
+    
+  const cost = rule?.base_cost_credits || 1;
+  const { data: wallet } = await supabase
+    .from('credit_wallets')
+    .select('balance')
+    .eq('user_id', user.id)
+    .single();
+    
+  if ((wallet?.balance || 0) < cost) {
+    return Response.json({ error: 'Insufficient credits' }, { status: 402 });
+  }
+  
+  // Atomic deduct
+  await supabase.from('credit_transactions').insert({
+    user_id: user.id,
+    amount: -cost,
+    reason: actionType,
+    reference_id: referenceId
+  });
+  
+  await supabase
+    .from('credit_wallets')
+    .update({ balance: wallet.balance - cost })
+    .eq('user_id', user.id);
+    
+  return Response.json({ success: true });
+}
+```
+
+### Usage Pattern
+```ts
+// Before any paid action
+const check = await fetch('/api/credits/check', {
+  method: 'POST',
+  body: JSON.stringify({ actionType: 'ai_build' })
+});
+
+if (!check.sufficient) {
+  // Show topup modal
+  return;
+}
+
+// Then do the action
+await fetch('/api/credits/usage', {
+  method: 'POST',
+  body: JSON.stringify({ actionType: 'ai_build', referenceId: buildId })
+});
+
+// Proceed with build/deploy/whatever
+```
+
+### Auto-create wallet on signup
+```ts
+// In your auth callback
+await supabase.from('credit_wallets').insert({ 
+  user_id: user.id, 
+  balance: 0 
+});
+```
+
+**That's it.** Call `check` before, `usage` after every action. Done.
+
