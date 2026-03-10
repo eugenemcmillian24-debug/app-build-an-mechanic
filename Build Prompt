@@ -1,0 +1,53 @@
+ i wanna build a ai app  builder that build full-stack apps and deploy them to Vercel, Netlify and others deployment platforms name OPS Ai  DEV.  FOR  the users DATABASE I wanna integrate   neon because they give a 100 free perject database creation on the free plan .I need auto database creation workflow and Supabase is the ops ai dev platform to manage the platform environment variables and everything else supabase is good for. i need  the prompt to be what I could give to a so app builder platform similar to what I'm building that build this whole app for me using my mobile device  Make sure  all of these ai models from OpenRouter and all of the from groq are implemented and used, please dont leave none of them out make sure to find a purpose for all of them Also add git hub integration for auto repo etc. I'm vercel and netlify apis for auto deployment.also add Lang Graph for multi agents and do not forget the self healer and auto fixes. Im also doing no free plans just credit/ messages and tokens cost for features functions and components Common Features
+Natural Language Interaction: Many platforms allow you to describe your app idea or required features in plain English, and the AI generates the necessary code.
+Code Generation and Refinement: The AI produces the source code and file structure, which can then be manually edited or refined through further prompts.
+Full-Stack Support: These builders often manage both frontend UI generation (often with frameworks like React and Tailwind) and backend logic, including database setup and APIs.
+Instant Preview and Deployment: Many tools offer real-time visual previews of the application and one-click deployment options, streamlining the path from idea to a live product. .open router api key to call these models allenai/molmo-2-8b:free
+xiaomi/mimo-v2-flash:free
+nvidia/nemotron-3-nano-30b-a3b:free
+mistralai/devstral-2512:free
+arcee-ai/trinity-mini:free
+tngtech/tng-r1t-chimera:free
+nvidia/nemotron-nano-12b-v2-vl:free
+nvidia/nemotron-nano-9b-v2:free
+openai/gpt-oss-120b:free
+openai/gpt-oss-20b:free
+z-ai/glm-4.5-air:free
+qwen/qwen3-coder:free
+google/gemini-2.0-flash-exp:free
+google/gemma-3n-e2b-it:free
+tngtech/deepseek-r1t2-chimera:free
+deepseek/deepseek-r1-0528:free
+google/gemma-3n-e4b-it:free
+qwen/qwen3-4b:free
+mistralai/mistral-small-3.1-24b-instruct:free
+google/gemma-3-4b-it:free
+google/gemma-3-12b-it:free
+google/gemma-3-27b-it:free
+meta-llama/llama-3.3-70b-instruct:free
+meta-llama/llama-3.2-3b-instruct:free
+qwen/qwen-2.5-vl-7b-instruct:free
+nousresearch/hermes-3-llama-3.1-405b:free
+meta-llama/llama-3.1-405b-instruct:free
+meituan/longcat-flash-chat:free
+moonshotai/kimi-k2:free
+tencent/hunyuan-a13b-instruct:free
+mistralai/mistral-small-3.2-24b-instruct:free
+moonshotai/kimi-dev-72b:free
+mistralai/devstral-small-2505:free
+meta-llama/llama-3.3-8b-instruct:free
+qwen/qwen3-30b-a3b:free
+deepseek/deepseek-chat-v3.1:free
+minimax/minimax-m2:free
+
+✨ qwen/qwen3-next-80b-a3b-instruct:free
+✨ stepfun/step-3.5-flash:free
+✨ openrouter/free
+✨ arcee-ai/trinity-large-preview:free
+✨ qwen/qwen3-vl-30b-a3b-thinking:free
+✨ qwen/qwen3-vl-235b-a22b-thinking:free
+✨ qwen/qwen3-235b-a22b-thinking-2507:free
+✨ upstage/solar-pro-3:free
+✨ liquid/lfm-2.5-1.2b-thinking:free
+✨ liquid/lfm-2.5-1.2b-instruct:free
+✨ cognitivecomputations/dolphin-mistral-24b-venice-edition:free and im switching Claude API key to Groq API Key to  call these models Primary: llama-3.1-70b-versatile – Matches your multi-agent workflows (e.g., CodeCraft AI routing).�Speed Chain: 8B for quick tasks → 70B for complex (rate limit safe).Use alongside OpenRouter free tier: Groq for latency, OpenRouter for variety like Qwen3 Coder.�llama-3.1-70b-versatile ,llama-3.1-8b-instant deepseek-r1-distill-llama-70b distil-whisper-large-v3-en for Audio transcription for voice-to-app builders. Also no demo  just production-ready to ship and yes I have all accounts api key GITHUB Client ID: Iv23linfIWstcKO4NZwl GITHUB SECRET SHA256:V+19DeFvEi72JCEuamDZYQOCI6jA54Bv2JtSIYdvZjI=
